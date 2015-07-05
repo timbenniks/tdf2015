@@ -3,11 +3,4 @@ extends layout
 block content
   h1= title
 
-  for item in newsItems
-    article
-      span( class=item.picto.join( ' ' ) )
-      time= item.time
-      h1= item.title
-      
-      //for text in item.text
-      p= item.text
+  include news.jade
