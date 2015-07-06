@@ -1,8 +1,6 @@
 for item in newsItems
-  article
-    span( class=item.picto.join( ' ' ) )
-    time= item.time
-    h1= item.title
-    
-    //for text in item.text
-    p= item.text
+  article( id=item.time )
+    span( class=item.status )
+    time= item.readableTime
+    h1 #{item.status} #{item.title}
+    p!= item.text.replace( /\n\n/g, '<br />' )

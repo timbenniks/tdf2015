@@ -1,52 +1,86 @@
-var htmlparser = require( 'htmlparser' ),
-    Q = require( 'q' ),
-    util = require( 'util' );
-
-function cleanNews( htmlData ){
+var Q = require( 'q' );
+    
+module.exports = function( rawData ){
   var deferred = Q.defer(),
       newsItems = [],
 
-  handler = new htmlparser.DefaultHandler(function( error, dom ){
-      
-      if( error ){
-        deferred.reject( error );
-      }
-      else {
+  toReadableTime = function( time ){
+    var h = Math.floor( time / 3600 ),
+        m = Math.floor( ( time - 3600 * h ) / 60 );
 
-        dom.forEach( function( tr ){
-          var item = {};
-          
-          tr.children.forEach( function( td ){
-            if( td.attribs.class === 'picto' ){
-              item.picto = td.children[ 0 ].attribs.class.split( ' ' );
-            }
+    return h + ':' + m;
+  },
 
-            if( td.attribs.class === 'time' ){
-              item.time = td.children[ 0 ].data;
-            }
+  toStatus = function( status ) {
+    var st;
 
-            if( td.attribs.class === 'text' ){
-              item.title = td.children[ 0 ].children[ 0 ].data;
-              
-              item.text = td.children[ 1 ].children[ 0 ].data;
+    switch( status ){
+      case 0: st = ''; break;
+      case 1: st = 'accident'; break;
+      case 2: st = 'crevaison'; break;
+      case 3: st = 'point-echappee'; break;
+      case 4: st = 'chute'; break;
+      case 5: st = ''; break;
+      case 6: st = ''; break;
+      case 7: st = 'classement-par-equipe'; break;
+      case 8: st = 'in-between-sprint'; break;
+      case 9: st = 'moyenne-speed'; break;
+      case 10: st = 'sommet'; break;
+      case 11: st = 'sommet'; break;
+      case 12: st = 'sommet'; break;
+      case 13: st = 'sommet'; break;
+      case 14: st = 'sommet'; break;
+      case 15: st = 'attack'; break;
+      case 16: st = ''; break;
+      case 17: st = 'point-sur-le-peleton'; break;
+      case 18: st = 'arret-mecanique'; break;
+      case 19: st = 'point-speed'; break;
+      case 20: st = 'point-sur-un-ecart'; break;
+      case 21: st = 'point-sur-les-derniers-kilometres'; break;
+      case 22: st = 'point-sur-lhomme-de-tete'; break;
+      case 23: st = 'point-sur-les-hommes-de-tete'; break;
+      case 24: st = 'point-sur-les-hommes-de-tete'; break;
+      case 25: st = 'ascension'; break;
+      case 26: st = 'abandon'; break;
+      case 27: st = ''; break;
+      case 28: st = ''; break;
+      case 29: st = ''; break;
+      case 30: st = ''; break;
+      case 31: st = 'top-5'; break;
+      case 32: st = 'victoire'; break;
+      case 33: st = 'prix-antargaz-de-la-combativite'; break;
+      case 34: st = 'sous-la-flamme-rouge'; break;
+      case 35: st = 'maillot-a-pois'; break;
+      case 36: st = 'maillot-vert'; break;
+      case 37: st = 'maillot-blanc'; break;
+      case 38: st = 'maillot-jaune'; break;
+      case 39: st = 'prix-de-la-combativite'; break;
+      case 40: st = 'depart'; break;
+      case 41: st = 'lu-dans-la-presse'; break;
+      case 42: st = 'interview'; break;
+      case 43: st = 'diverse-stats'; break;
+      case 44: st = 'point-historique'; break;
+      case 45: st = 'anniversaire'; break;
+      case 46: st = 'changement-de-velo'; break;
+      case 47: st = ''; break;
+      case 48: st = ''; break;
+    }
 
-              //td.children.forEach( function( textItem ){
-              //  item.text.push( textItem.children[ 0 ].data );
-              //} );
-            }
-          } );
+    return st;
+  },
 
-          newsItems.push( item );
-        } );
+  newsItems = rawData.map( function( item ){
+    return {
+      time: item.s,
+      readableTime: toReadableTime( item.s ),
+      title: item.t,
+      text: item.b,
+      ev: item.e,
+      status: toStatus( item.e )
+    };
+  } );
 
-        deferred.resolve( newsItems );
-      }
-    }),
+  deferred.resolve( newsItems.reverse() );
 
-    parser = new htmlparser.Parser( handler );
-    parser.parseComplete( htmlData );
-
-    return deferred.promise;
+  return deferred.promise;
 }
-
-module.exports = cleanNews;
