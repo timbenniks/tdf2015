@@ -2,7 +2,7 @@ var Q = require( 'q' ),
     request = require( 'request' ),
     dirty = require( 'dirty' ),
     db = dirty( 'tdf.db' );
-
+    
 module.exports = function( allNews ){
   var deferred = Q.defer(),
 
@@ -10,7 +10,7 @@ module.exports = function( allNews ){
     if( !db.get( item.time ) ){
       db.set( item.time, item );
       return true;
-    }
+    } 
     
     return false;
   } );
@@ -18,4 +18,4 @@ module.exports = function( allNews ){
   deferred.resolve( newsToReturn );
  
   return deferred.promise;
-}
+};

@@ -1,9 +1,8 @@
-// use this: https://github.com/xoxco/node-slack
-
 var getNews = require( '../helpers/getNews' ),
     cleanNews = require( '../helpers/cleanNews' ),
     appState = require( '../helpers/appState' ),
     onlyNewNews = require( '../helpers/onlyNewNews' ),
+    notificaton = require( '../helpers/slack' ),
     
     render = function( req, res, data ){
       if( req.query.type === 'json' ){
@@ -31,9 +30,14 @@ module.exports = function( req, res, next ){
       .then( cleanNews )
       .then( onlyNewNews )
       .then( function( data ){
+        
+        data.forEach( function( item ){
+          notificaton( item );
+        } );
+
         render( req, res, data );
       } );
   }
 
  
-}
+};

@@ -8,23 +8,23 @@ module.exports = function( stageData ){
   
   request({
     method: 'GET',
-    uri: 'http://www.letour.fr/useradgents/2015/json/livenews' + stage + '_en.json?cb=' + Math.floor( Math.random() * 100000000 ).toString()
+    uri: 'http://www.letour.fr/useradgents/2015/json/livenews' + stage + '_en.json?_=' + Math.floor( Math.random() * 100000000 ).toString()
   }, 
   function( error, response, body ){
     if( response.statusCode === 200 ){
       var data = JSON.parse( body );
 
-      if( data[ 'd' ] ){
-        deferred.resolve( data[ 'd' ] );
+      if( data.d ){
+        deferred.resolve( data.d );
       }
       else {
-        deferred.reject( 'no livenews yet.' );
+        deferred.reject( 'no live news yet.' );
       }     
     }
     else {
-      deferred.reject( 'livenews not reachable.' );
+      deferred.reject( 'live news not reachable.' );
     }
   });
 
   return deferred.promise;
-}
+};
