@@ -12,6 +12,7 @@
     "debug": "~2.1.1",
     "dirty": "^0.9.9",
     "express": "~4.12.2",
+    "gulp-plumber": "^1.0.1",
     "htmlparser": "^1.7.7",
     "htmlparser2": "^3.8.3",
     "jade": "~1.9.2",
@@ -24,5 +25,21 @@
     "request": "^2.58.0",
     "serve-favicon": "~2.2.0",
     "stylus": "0.42.3"
+  },
+  "devDependencies": {
+    "autoprefixer-stylus": "^0.7.0",
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-imagemin": "^2.3.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-modernizr": "^1.0.0-alpha",
+    "gulp-sftp": "^0.1.4",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-stylus": "^2.0.5",
+    "gulp-uglify": "^1.2.0",
+    "jadeify": "^4.3.0",
+    "require-dir": "^0.3.0"
   }
 }
