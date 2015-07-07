@@ -1,16 +1,34 @@
-p #{stageStatus.speed}km/u
-p km completed: #{stageStatus.kmCompleted}
-p km remaining: #{stageStatus.kmRemaining}
-p distance: #{stageInfo.distance}km
+figure.stage-status
+  img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage.slice(1)}.png" )
 
-img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage.slice(1)}.png" )
+  figcaption
+    span.percentage( style="left: #{ ( stageStatus.kmCompleted / stageInfo.distance ) * 100 }%" )
+    
+    .stats
+      .stat.speed
+        h2 Current speed
+        p #{stageStatus.speed}km/u
+      .stat.completed
+        h2 Distance completed
+        p #{stageStatus.kmCompleted}km
+      .stat.remaining
+        h2 Distance remaining
+        p #{stageStatus.kmRemaining}km
+      .stat.distance
+        h2 Total distance
+        p #{stageInfo.distance}km
 
-for group in stageStatus.groups
-	section
-		p= group.title
-		
-		if group.runnersNo > 0
-			p Runners: #{group.runnersNo}
+section.groups
+  for group in stageStatus.groups
+    .group
+      h2= group.title
+      
+      ul
+        if group.delay !== ""
+          li.delay behind: #{group.delay}
 
-		if group.jourseys !== ""
-			p Jourseys: #{group.jourseys}
+        if group.runnersNo > 0
+          li.runners Runners: #{group.runnersNo}
+
+        if group.jourseys !== ""
+          li.journeys Jourseys: #{group.jourseys}

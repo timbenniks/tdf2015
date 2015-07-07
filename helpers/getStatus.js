@@ -28,7 +28,7 @@ module.exports = function( stageData ){
           status.groups.push({
             title: group.t, 
             runnersNo: group.n, 
-            delay: ( group.d ) ? moment.duration( group.d, 'seconds' ).format( 'mm:ss' ) : 0, 
+            delay: ( group.d ) ? moment.duration( group.d, 'seconds' ).format( 'mm:ss' ) : '', 
             jourseys: ( group.j ) ? group.j : '' 
           } );
         } );

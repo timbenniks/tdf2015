@@ -1,6 +1,6 @@
 for item in newsItems
   article( id=item.time )
-    span( class=item.status )
+    p( class=item.status )= item.status
     time= item.readableTime
-    h1 #{item.status} #{item.title}
+    h1 #{item.title}
     p!= item.text.replace( /\n\n/g, '<br />' )

@@ -1,5 +1,6 @@
 var Q = require( 'q' ),
-    request = require( 'request' );
+    request = require( 'request' ),
+    moment = require( 'moment' );
 
 module.exports = function( stageData ){
   var deferred = Q.defer(),
@@ -12,7 +13,15 @@ module.exports = function( stageData ){
   }, 
   function( error, response, body ){
     if( response.statusCode === 200 ){
-      deferred.resolve( JSON.parse( body )[ stage ] );
+      var data = JSON.parse( body )[ stage ],
+          stageData = {
+            distance: data.distance,
+            date: moment( data.date ).format( "D MMMM YYYY" ),
+            start: data.start,
+            finish: data.finish
+          };
+      
+      deferred.resolve( stageData );
     }
     else {
       deferred.reject( 'no route info available.' );
