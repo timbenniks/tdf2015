@@ -16,6 +16,7 @@ app.use( cookieParser() );
 app.use( express.static( path.join( __dirname, 'public' ) ) );
 
 app.use( '/news', require( './routes/news' ));
+app.use( '/status', require( './routes/status' ));
 app.use( '/', require( './routes/index' ));
 
 // catch 404 and forward to error handler

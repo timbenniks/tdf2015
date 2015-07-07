@@ -2,5 +2,6 @@ extends layout
 
 block content
   h1 #{stageInfo.distance}km #{stageInfo.start} &mdash; #{stageInfo.finish}
-  img( width="320", src="http://www.letour.fr/useradgents/2015/profiles/#{appState.stage}.jpg" )
-  include news.jade
+  
+  include includes/status.jade
+  include includes/news.jade

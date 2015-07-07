@@ -9,7 +9,7 @@ var getNews = require( '../helpers/getNews' ),
         res.json( { newsItems: data } );
       }
       else {
-        res.render( 'news', { newsItems: data } );
+        res.render( 'includes/news', { newsItems: data } );
       }
     };
   
@@ -31,9 +31,11 @@ module.exports = function( req, res, next ){
       .then( onlyNewNews )
       .then( function( data ){
         
-        data.forEach( function( item ){
-          notificaton( item );
-        } );
+        if( data.length < 3 ){
+          data.forEach( function( item ){
+            notificaton( item );
+          } );
+        }
 
         render( req, res, data );
       } );

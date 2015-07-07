@@ -1,0 +1,16 @@
+p #{stageStatus.speed}km/u
+p km completed: #{stageStatus.kmCompleted}
+p km remaining: #{stageStatus.kmRemaining}
+p distance: #{stageInfo.distance}km
+
+img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage.slice(1)}.png" )
+
+for group in stageStatus.groups
+	section
+		p= group.title
+		
+		if group.runnersNo > 0
+			p Runners: #{group.runnersNo}
+
+		if group.jourseys !== ""
+			p Jourseys: #{group.jourseys}
