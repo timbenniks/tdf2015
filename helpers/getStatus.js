@@ -8,11 +8,11 @@ module.exports = function( stageData ){
 
   var deferred = Q.defer(),
       stage = stageData.stage;
-  
+
   request({
     method: 'GET',
     uri: 'http://www.letour.fr/useradgents/2015/json/livestage' + stage + '.json?_=' + Math.floor( Math.random() * 100000000 ).toString()
-  }, 
+  },
   function( error, response, body ){
     if( response.statusCode === 200 ){
       var data = JSON.parse( body ),
@@ -26,14 +26,17 @@ module.exports = function( stageData ){
       if( data.g ){
         data[ 'g' ].forEach( function( group ){
           status.groups.push({
-            title: group.t, 
-            runnersNo: group.n, 
-            delay: ( group.d ) ? moment.duration( group.d, 'seconds' ).format( 'mm:ss' ) : '', 
-            jourseys: ( group.j ) ? group.j : '' 
+            title: group.t,
+            runnersNo: group.n,
+            delay: ( group.d ) ? moment.duration( group.d, 'seconds' ).format( 'mm:ss' ) : '',
+            jourseys: ( group.j ) ? group.j : '',
+            riders: ( group.r ) ? group.r : []
           } );
         } );
+
+        status.groups = status.groups.reverse();
       }
-      
+
       deferred.resolve( status );
     }
     else {

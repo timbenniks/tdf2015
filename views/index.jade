@@ -1,8 +1,9 @@
 extends layout
 
 block content
-  h1 #{stageInfo.start} &mdash; #{stageInfo.finish}
-  h2 #{stageInfo.date}  
-  
+  header
+    h1 #{stageInfo.start} &mdash; #{stageInfo.finish}
+    h2 #{stageInfo.date}
+
   include includes/status.jade
   include includes/news.jade

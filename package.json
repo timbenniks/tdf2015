@@ -11,6 +11,7 @@
     "create-singleton": "0.0.3",
     "debug": "~2.1.1",
     "dirty": "^0.9.9",
+    "domready": "^1.0.8",
     "express": "~4.12.2",
     "gulp-plumber": "^1.0.1",
     "htmlparser": "^1.7.7",
@@ -40,6 +41,7 @@
     "gulp-stylus": "^2.0.5",
     "gulp-uglify": "^1.2.0",
     "jadeify": "^4.3.0",
+    "jshint-stylish": "^2.0.1",
     "require-dir": "^0.3.0"
   }
 }
