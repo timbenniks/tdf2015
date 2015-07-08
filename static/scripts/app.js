@@ -1,8 +1,11 @@
 /* globals console*/
+import get from './get';
 
 class TDF {
   constructor(){
-    console.log('ready');
+    get.getLatestData().then( function( data ){
+      console.log( data );
+    } )
   }
 }
 

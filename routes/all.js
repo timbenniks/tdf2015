@@ -3,7 +3,9 @@ var Q = require( 'q' ),
     cleanNews = require( '../helpers/cleanNews' ),
     appState = require( '../helpers/appState' ),
     stageData = require( '../helpers/stageData' ),
-    getStatus = require( '../helpers/getStatus' );
+    onlyNewNews = require( '../helpers/onlyNewNews' ),
+    getStatus = require( '../helpers/getStatus' ),
+    notificaton = require( '../helpers/slack' );
 
 module.exports = function( req, res, next ){
   var promises = [],
@@ -12,7 +14,7 @@ module.exports = function( req, res, next ){
   appState().then( function( state ){
     appStateObject = state;
 
-    var promiseNews = getNews( appStateObject ).then( cleanNews ),
+    var promiseNews = getNews( appStateObject ).then( cleanNews ).then( onlyNewNews ),
         promiseStageData = stageData( appStateObject ),
         promiseStageStatus = getStatus( appStateObject );
 
@@ -30,9 +32,13 @@ module.exports = function( req, res, next ){
       stageInfo = ( stageInfoProm.state === 'rejected' ) ? { error: stageInfoProm.reason } : stageInfoProm.value;
       stageStatus = ( stageStatusProm.state === 'rejected' ) ? { error: stageStatusProm.reason } : stageStatusProm.value;
 
-      res.render( 'index', { newsItems: newsItems, stageInfo: stageInfo, appState: appStateObject, stageStatus: stageStatus } );
+      if( newsItems.length <= 3 ){
+          newsItems.forEach( function( item ){
+            notificaton( item );
+          } );
+        }
+
+      res.json( { newsItems: newsItems, stageInfo: stageInfo, appState: appStateObject, stageStatus: stageStatus } );
     } );
   } );
-
-
 };

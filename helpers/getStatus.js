@@ -15,11 +15,17 @@ module.exports = function( stageData ){
   },
   function( error, response, body ){
     if( response.statusCode === 200 ){
+
+      if( typeof JSON.parse( body ) === "undefined" ){
+        deferred.reject( 'live status not reachable.' );
+      }
+
       var data = JSON.parse( body ),
           status = {
-            speed: ( data.s / 1000 ).toFixed( 1 ),
-            kmCompleted: data.kp,
-            kmRemaining: data.kr,
+            speed: ( data.s ) ? ( data.s / 1000 ).toFixed( 1 ) + 'km/h' : '-',
+            kmCompleted: ( data.kp ) ? data.kp + 'km' : '-',
+            kmCompletedInt: ( data.kp ) ? data.kp : 0,
+            kmRemaining: ( data.kr ) ? data.kr + 'km' : '-',
             groups: []
           };
 
@@ -29,7 +35,7 @@ module.exports = function( stageData ){
             title: group.t,
             runnersNo: group.n,
             delay: ( group.d ) ? moment.duration( group.d, 'seconds' ).format( 'mm:ss' ) : '',
-            jourseys: ( group.j ) ? group.j : '',
+            jerseys: ( group.j ) ? group.j.split( '' ) : '',
             riders: ( group.r ) ? group.r : []
           } );
         } );

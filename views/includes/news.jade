@@ -1,5 +1,8 @@
 section.news-items
-  for item in newsItems
-    article( id=item.time, class=item.status )
-      h1 #{item.readableTime} &ndash; #{item.title}
-      blockquote!= item.text.replace( /\n\n/g, '<br />' )
+  if newsItems.error
+    h1= newsItems.error
+  else
+    for item in newsItems
+      article( id=item.time, class=item.status )
+        h1 #{item.readableTime} &ndash; #{item.title}
+        blockquote!= item.text.replace( /\n\n/g, '<br />' )
