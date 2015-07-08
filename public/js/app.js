@@ -2294,7 +2294,6 @@ exports.rethrow = function rethrow(err, filename, lineno, str){
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/reqwest/reqwest.js","/../../node_modules/reqwest")
 },{"buffer":3,"oMfpAn":6}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-/* globals console*/
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2327,17 +2326,39 @@ var TDF = (function () {
   function TDF() {
     _classCallCheck(this, TDF);
 
-    _get2['default'].getLatestData().then(function (data) {
-      this.render('news', data.newsItems);
+    var that = this;
+
+    this.poll(function (data) {
+      console.log('refreshing');
+      that.render('header', { appState: data.appState, stageInfo: data.stageInfo });
+      that.render('status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
+      that.render('groups', { appState: data.appState, stageStatus: data.stageStatus });
+      that.render('news', { appState: data.appState, newsItems: data.newsItems });
     });
   }
 
   _createClass(TDF, [{
+    key: 'getData',
+    value: function getData() {
+      return _get2['default'].getLatestData();
+    }
+  }, {
+    key: 'poll',
+    value: function poll(callback) {
+      var that = this;
+
+      setTimeout(function () {
+        that.getData().then(callback);
+        that.poll();
+      }, 30000);
+    }
+  }, {
     key: 'render',
     value: function render(part, data) {
       var html, selector;
 
       switch (part) {
+
         case 'header':
           html = (0, _viewsIncludesHeaderJade2['default'])(data);
           selector = document.querySelector('header');
@@ -2370,7 +2391,7 @@ require('domready')(function () {
   new TDF();
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d29be9a2.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_710d9018.js","/")
 },{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/status.jade":14,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /* globals console*/
