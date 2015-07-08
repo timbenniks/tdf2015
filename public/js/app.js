@@ -32,7 +32,11 @@
 });
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/domready/ready.js","/../../node_modules/domready")
-},{"buffer":2,"oMfpAn":5}],2:[function(require,module,exports){
+},{"buffer":3,"oMfpAn":6}],2:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/browser-resolve/empty.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/browser-resolve")
+},{"buffer":3,"oMfpAn":6}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1145,7 +1149,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"base64-js":3,"buffer":2,"ieee754":4,"oMfpAn":5}],3:[function(require,module,exports){
+},{"base64-js":4,"buffer":3,"ieee754":5,"oMfpAn":6}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -1273,7 +1277,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"buffer":2,"oMfpAn":5}],4:[function(require,module,exports){
+},{"buffer":3,"oMfpAn":6}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -1361,7 +1365,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"buffer":2,"oMfpAn":5}],5:[function(require,module,exports){
+},{"buffer":3,"oMfpAn":6}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1428,7 +1432,248 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"buffer":2,"oMfpAn":5}],6:[function(require,module,exports){
+},{"buffer":3,"oMfpAn":6}],7:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.jade=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+/**
+ * Merge two attribute objects giving precedence
+ * to values in object `b`. Classes are special-cased
+ * allowing for arrays and merging/joining appropriately
+ * resulting in a string.
+ *
+ * @param {Object} a
+ * @param {Object} b
+ * @return {Object} a
+ * @api private
+ */
+
+exports.merge = function merge(a, b) {
+  if (arguments.length === 1) {
+    var attrs = a[0];
+    for (var i = 1; i < a.length; i++) {
+      attrs = merge(attrs, a[i]);
+    }
+    return attrs;
+  }
+  var ac = a['class'];
+  var bc = b['class'];
+
+  if (ac || bc) {
+    ac = ac || [];
+    bc = bc || [];
+    if (!Array.isArray(ac)) ac = [ac];
+    if (!Array.isArray(bc)) bc = [bc];
+    a['class'] = ac.concat(bc).filter(nulls);
+  }
+
+  for (var key in b) {
+    if (key != 'class') {
+      a[key] = b[key];
+    }
+  }
+
+  return a;
+};
+
+/**
+ * Filter null `val`s.
+ *
+ * @param {*} val
+ * @return {Boolean}
+ * @api private
+ */
+
+function nulls(val) {
+  return val != null && val !== '';
+}
+
+/**
+ * join array as classes.
+ *
+ * @param {*} val
+ * @return {String}
+ */
+exports.joinClasses = joinClasses;
+function joinClasses(val) {
+  return (Array.isArray(val) ? val.map(joinClasses) :
+    (val && typeof val === 'object') ? Object.keys(val).filter(function (key) { return val[key]; }) :
+    [val]).filter(nulls).join(' ');
+}
+
+/**
+ * Render the given classes.
+ *
+ * @param {Array} classes
+ * @param {Array.<Boolean>} escaped
+ * @return {String}
+ */
+exports.cls = function cls(classes, escaped) {
+  var buf = [];
+  for (var i = 0; i < classes.length; i++) {
+    if (escaped && escaped[i]) {
+      buf.push(exports.escape(joinClasses([classes[i]])));
+    } else {
+      buf.push(joinClasses(classes[i]));
+    }
+  }
+  var text = joinClasses(buf);
+  if (text.length) {
+    return ' class="' + text + '"';
+  } else {
+    return '';
+  }
+};
+
+
+exports.style = function (val) {
+  if (val && typeof val === 'object') {
+    return Object.keys(val).map(function (style) {
+      return style + ':' + val[style];
+    }).join(';');
+  } else {
+    return val;
+  }
+};
+/**
+ * Render the given attribute.
+ *
+ * @param {String} key
+ * @param {String} val
+ * @param {Boolean} escaped
+ * @param {Boolean} terse
+ * @return {String}
+ */
+exports.attr = function attr(key, val, escaped, terse) {
+  if (key === 'style') {
+    val = exports.style(val);
+  }
+  if ('boolean' == typeof val || null == val) {
+    if (val) {
+      return ' ' + (terse ? key : key + '="' + key + '"');
+    } else {
+      return '';
+    }
+  } else if (0 == key.indexOf('data') && 'string' != typeof val) {
+    if (JSON.stringify(val).indexOf('&') !== -1) {
+      console.warn('Since Jade 2.0.0, ampersands (`&`) in data attributes ' +
+                   'will be escaped to `&amp;`');
+    };
+    if (val && typeof val.toISOString === 'function') {
+      console.warn('Jade will eliminate the double quotes around dates in ' +
+                   'ISO form after 2.0.0');
+    }
+    return ' ' + key + "='" + JSON.stringify(val).replace(/'/g, '&apos;') + "'";
+  } else if (escaped) {
+    if (val && typeof val.toISOString === 'function') {
+      console.warn('Jade will stringify dates in ISO form after 2.0.0');
+    }
+    return ' ' + key + '="' + exports.escape(val) + '"';
+  } else {
+    if (val && typeof val.toISOString === 'function') {
+      console.warn('Jade will stringify dates in ISO form after 2.0.0');
+    }
+    return ' ' + key + '="' + val + '"';
+  }
+};
+
+/**
+ * Render the given attributes object.
+ *
+ * @param {Object} obj
+ * @param {Object} escaped
+ * @return {String}
+ */
+exports.attrs = function attrs(obj, terse){
+  var buf = [];
+
+  var keys = Object.keys(obj);
+
+  if (keys.length) {
+    for (var i = 0; i < keys.length; ++i) {
+      var key = keys[i]
+        , val = obj[key];
+
+      if ('class' == key) {
+        if (val = joinClasses(val)) {
+          buf.push(' ' + key + '="' + val + '"');
+        }
+      } else {
+        buf.push(exports.attr(key, val, false, terse));
+      }
+    }
+  }
+
+  return buf.join('');
+};
+
+/**
+ * Escape the given string of `html`.
+ *
+ * @param {String} html
+ * @return {String}
+ * @api private
+ */
+
+exports.escape = function escape(html){
+  var result = String(html)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+  if (result === '' + html) return html;
+  else return result;
+};
+
+/**
+ * Re-throw the given `err` in context to the
+ * the jade in `filename` at the given `lineno`.
+ *
+ * @param {Error} err
+ * @param {String} filename
+ * @param {String} lineno
+ * @api private
+ */
+
+exports.rethrow = function rethrow(err, filename, lineno, str){
+  if (!(err instanceof Error)) throw err;
+  if ((typeof window != 'undefined' || !filename) && !str) {
+    err.message += ' on line ' + lineno;
+    throw err;
+  }
+  try {
+    str = str || require('fs').readFileSync(filename, 'utf8')
+  } catch (ex) {
+    rethrow(err, null, lineno)
+  }
+  var context = 3
+    , lines = str.split('\n')
+    , start = Math.max(lineno - context, 0)
+    , end = Math.min(lines.length, lineno + context);
+
+  // Error context
+  var context = lines.slice(start, end).map(function(line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? '  > ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'Jade') + ':' + lineno
+    + '\n' + context + '\n\n' + err.message;
+  throw err;
+};
+
+},{"fs":2}],2:[function(require,module,exports){
+
+},{}]},{},[1])(1)
+});
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/jade/runtime.js","/../../node_modules/jade")
+},{"buffer":3,"fs":2,"oMfpAn":6}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
   * Reqwest! A general purpose XHR connection manager
@@ -2047,10 +2292,12 @@ process.chdir = function (dir) {
 });
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/reqwest/reqwest.js","/../../node_modules/reqwest")
-},{"buffer":2,"oMfpAn":5}],7:[function(require,module,exports){
+},{"buffer":3,"oMfpAn":6}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /* globals console*/
 'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -2060,20 +2307,71 @@ var _get = require('./get');
 
 var _get2 = _interopRequireDefault(_get);
 
-var TDF = function TDF() {
-  _classCallCheck(this, TDF);
+var _viewsIncludesHeaderJade = require('../../views/includes/header.jade');
 
-  _get2['default'].getLatestData().then(function (data) {
-    console.log(data);
-  });
-};
+var _viewsIncludesHeaderJade2 = _interopRequireDefault(_viewsIncludesHeaderJade);
+
+var _viewsIncludesStatusJade = require('../../views/includes/status.jade');
+
+var _viewsIncludesStatusJade2 = _interopRequireDefault(_viewsIncludesStatusJade);
+
+var _viewsIncludesGroupsJade = require('../../views/includes/groups.jade');
+
+var _viewsIncludesGroupsJade2 = _interopRequireDefault(_viewsIncludesGroupsJade);
+
+var _viewsIncludesNewsJade = require('../../views/includes/news.jade');
+
+var _viewsIncludesNewsJade2 = _interopRequireDefault(_viewsIncludesNewsJade);
+
+var TDF = (function () {
+  function TDF() {
+    _classCallCheck(this, TDF);
+
+    _get2['default'].getLatestData().then(function (data) {
+      this.render('news', data.newsItems);
+    });
+  }
+
+  _createClass(TDF, [{
+    key: 'render',
+    value: function render(part, data) {
+      var html, selector;
+
+      switch (part) {
+        case 'header':
+          html = (0, _viewsIncludesHeaderJade2['default'])(data);
+          selector = document.querySelector('header');
+          break;
+
+        case 'status':
+          html = (0, _viewsIncludesStatusJade2['default'])(data);
+          selector = document.querySelector('.stage-status');
+          break;
+
+        case 'groups':
+          html = (0, _viewsIncludesGroupsJade2['default'])(data);
+          selector = document.querySelector('.groups');
+          break;
+
+        case 'news':
+          html = (0, _viewsIncludesNewsJade2['default'])(data);
+          selector = document.querySelector('.news-items');
+          break;
+      }
+
+      selector.innerHTML = html;
+    }
+  }]);
+
+  return TDF;
+})();
 
 require('domready')(function () {
   new TDF();
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c286871c.js","/")
-},{"./get":8,"buffer":2,"domready":1,"oMfpAn":5}],8:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d29be9a2.js","/")
+},{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/status.jade":14,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /* globals console*/
 
@@ -2114,7 +2412,180 @@ var get = (function () {
 module.exports = get;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/get.js","/")
-},{"buffer":2,"oMfpAn":5,"reqwest":6}]},{},[7])
+},{"buffer":3,"oMfpAn":6,"reqwest":8}],11:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var jade = require("jade/runtime");
+
+module.exports = function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (stageStatus, undefined) {
+// iterate stageStatus.groups
+;(function(){
+  var $$obj = stageStatus.groups;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var group = $$obj[$index];
+
+buf.push("<div class=\"group\">");
+if ( group.runnersNo > 0)
+{
+buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
+}
+else
+{
+buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_interp)) + "</h2>");
+}
+if ( group.delay !== "")
+{
+buf.push("<p class=\"delay\">" + (jade.escape((jade_interp = group.delay) == null ? '' : jade_interp)) + "</p>");
+}
+if ( group.jerseys.length > 0)
+{
+// iterate group.jerseys
+;(function(){
+  var $$obj = group.jerseys;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var jersey = $$obj[$index];
+
+buf.push("<span" + (jade.cls(['jersey',jersey], [null,true])) + "></span>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var jersey = $$obj[$index];
+
+buf.push("<span" + (jade.cls(['jersey',jersey], [null,true])) + "></span>");
+    }
+
+  }
+}).call(this);
+
+}
+buf.push("</div>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var group = $$obj[$index];
+
+buf.push("<div class=\"group\">");
+if ( group.runnersNo > 0)
+{
+buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
+}
+else
+{
+buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_interp)) + "</h2>");
+}
+if ( group.delay !== "")
+{
+buf.push("<p class=\"delay\">" + (jade.escape((jade_interp = group.delay) == null ? '' : jade_interp)) + "</p>");
+}
+if ( group.jerseys.length > 0)
+{
+// iterate group.jerseys
+;(function(){
+  var $$obj = group.jerseys;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var jersey = $$obj[$index];
+
+buf.push("<span" + (jade.cls(['jersey',jersey], [null,true])) + "></span>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var jersey = $$obj[$index];
+
+buf.push("<span" + (jade.cls(['jersey',jersey], [null,true])) + "></span>");
+    }
+
+  }
+}).call(this);
+
+}
+buf.push("</div>");
+    }
+
+  }
+}).call(this);
+}.call(this,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
+};
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/groups.jade","/../../views/includes")
+},{"buffer":3,"jade/runtime":7,"oMfpAn":6}],12:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var jade = require("jade/runtime");
+
+module.exports = function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (stageInfo) {
+buf.push("<h1>" + (jade.escape((jade_interp = stageInfo.start) == null ? '' : jade_interp)) + " &mdash; " + (jade.escape((jade_interp = stageInfo.finish) == null ? '' : jade_interp)) + "</h1><h2>" + (jade.escape((jade_interp = stageInfo.date) == null ? '' : jade_interp)) + "</h2>");}.call(this,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined));;return buf.join("");
+};
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/header.jade","/../../views/includes")
+},{"buffer":3,"jade/runtime":7,"oMfpAn":6}],13:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var jade = require("jade/runtime");
+
+module.exports = function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (newsItems, undefined) {
+if ( newsItems.error)
+{
+buf.push("<h1>" + (jade.escape(null == (jade_interp = newsItems.error) ? "" : jade_interp)) + "</h1>");
+}
+else
+{
+// iterate newsItems
+;(function(){
+  var $$obj = newsItems;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var item = $$obj[$index];
+
+buf.push("<article" + (jade.attr("id", item.time, true, false)) + (jade.cls([item.status], [true])) + "><h1>" + (jade.escape((jade_interp = item.readableTime) == null ? '' : jade_interp)) + " &ndash; " + (jade.escape((jade_interp = item.title) == null ? '' : jade_interp)) + "</h1><blockquote>" + (null == (jade_interp = item.text.replace( /\n\n/g, '<br />' )) ? "" : jade_interp) + "</blockquote></article>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var item = $$obj[$index];
+
+buf.push("<article" + (jade.attr("id", item.time, true, false)) + (jade.cls([item.status], [true])) + "><h1>" + (jade.escape((jade_interp = item.readableTime) == null ? '' : jade_interp)) + " &ndash; " + (jade.escape((jade_interp = item.title) == null ? '' : jade_interp)) + "</h1><blockquote>" + (null == (jade_interp = item.text.replace( /\n\n/g, '<br />' )) ? "" : jade_interp) + "</blockquote></article>");
+    }
+
+  }
+}).call(this);
+
+}}.call(this,"newsItems" in locals_for_with?locals_for_with.newsItems:typeof newsItems!=="undefined"?newsItems:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
+};
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/news.jade","/../../views/includes")
+},{"buffer":3,"jade/runtime":7,"oMfpAn":6}],14:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var jade = require("jade/runtime");
+
+module.exports = function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (appState, stageInfo, stageStatus) {
+buf.push("<figcaption><div class=\"stats\"><div class=\"stat speed\"><h2>Current speed</h2><p>" + (jade.escape((jade_interp = stageStatus.speed) == null ? '' : jade_interp)) + "</p></div><div class=\"stat completed\"><h2>Distance completed</h2><p>" + (jade.escape((jade_interp = stageStatus.kmCompleted) == null ? '' : jade_interp)) + "</p></div><div class=\"stat remaining\"><h2>Distance remaining</h2><p>" + (jade.escape((jade_interp = stageStatus.kmRemaining) == null ? '' : jade_interp)) + "</p></div><div class=\"stat distance\"><h2>Total distance</h2><p>" + (jade.escape((jade_interp = stageInfo.distance) == null ? '' : jade_interp)) + "km</p></div></div></figcaption><div class=\"progress-wrapper\"><img" + (jade.attr("src", "http://www.letour.fr/le-tour/2015/img/profils/" + (appState.stage.slice(1)) + ".png", true, false)) + "/><div" + (jade.attr("style", "width: " + ( ( ( stageStatus.kmCompletedInt / stageInfo.distance ) * 100 ).toFixed( 0 ) ) + "%", true, false)) + " class=\"percentage\"></div></div>");}.call(this,"appState" in locals_for_with?locals_for_with.appState:typeof appState!=="undefined"?appState:undefined,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined));;return buf.join("");
+};
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/status.jade","/../../views/includes")
+},{"buffer":3,"jade/runtime":7,"oMfpAn":6}]},{},[9])
 
 
 //# sourceMappingURL=app.js.map

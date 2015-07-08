@@ -1,0 +1,14 @@
+for group in stageStatus.groups
+  .group
+
+    if group.runnersNo > 0
+      h2 #{group.title} (#{group.runnersNo})
+    else
+      h2= group.title
+
+    if group.delay !== ""
+      p.delay #{group.delay}
+
+    if group.jerseys.length > 0
+      for jersey in group.jerseys
+        span.jersey( class=jersey )

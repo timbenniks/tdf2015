@@ -14,7 +14,7 @@ module.exports = function( req, res, next ){
   appState().then( function( state ){
     appStateObject = state;
 
-    var promiseNews = getNews( appStateObject ).then( cleanNews ).then( onlyNewNews ),
+    var promiseNews = getNews( appStateObject ).then( cleanNews ),/*.then( onlyNewNews ),*/
         promiseStageData = stageData( appStateObject ),
         promiseStageStatus = getStatus( appStateObject );
 

@@ -1,9 +1,16 @@
 extends layout
 
 block content
-  header
-    h1 #{stageInfo.start} &mdash; #{stageInfo.finish}
-    h2 #{stageInfo.date}
 
-  include includes/status.jade
-  include includes/news.jade
+  header
+    include includes/header.jade
+
+  figure.stage-status
+    include includes/status.jade
+
+  if stageStatus.groups.length > 0
+    section.groups
+      include includes/groups.jade
+
+  section.news-items
+    include includes/news.jade
