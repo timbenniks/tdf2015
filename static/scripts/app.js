@@ -6,37 +6,44 @@ import news from '../../views/includes/news.jade';
 
 class TDF {
   constructor(){
-
-    var that = this;
-
-    this.poll( function( data ){
-      console.log( 'refreshing' );
-      that.render( 'header', { appState: data.appState, stageInfo: data.stageInfo } );
-      that.render( 'status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
-      that.render( 'groups', { appState: data.appState, stageStatus: data.stageStatus } );
-      that.render( 'news', { appState: data.appState, newsItems: data.newsItems } );
-    } );
+    this.askForNews();
+    this.askForStatus();
   }
 
   getData(){
     return get.getLatestData();
   }
 
-  poll( callback ){
-    var that = this;
+  askForNews(){
+    this.poll( 20000, ( data )=> {
+      console.info( 'refreshing news', data.newsItems );
 
-    setTimeout( function(){
-      that.getData().then( callback );
-      that.poll();
-    }, 30000 );
+      this.render( 'news', { appState: data.appState, newsItems: data.newsItems }, 'prepend' );
+      this.askForNews();
+    } );
   }
 
-  render( part, data ) {
+  askForStatus(){
+    this.poll( 20000, ( data )=> {
+      console.info( 'refreshing status and groups', data.stageInfo, data.stageStatus );
+
+      this.render( 'status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
+      this.render( 'groups', { appState: data.appState, stageStatus: data.stageStatus } );
+      this.askForStatus();
+    } );
+  }
+
+  poll( timeout, callback ){
+    setTimeout( ()=> {
+      this.getData().then( callback );
+    }, timeout );
+  }
+
+  render( part, data, action ) {
     var html,
         selector;
 
     switch( part ){
-
       case 'header':
         html = header( data );
         selector = document.querySelector( 'header' );
@@ -58,7 +65,14 @@ class TDF {
       break;
     }
 
-    selector.innerHTML = html;
+    if( selector ){
+      if( action === 'prepend' ){
+        selector.insertAdjacentHTML( "afterbegin", html );
+      }
+      else {
+        selector.innerHTML = html;
+      }
+    }
   }
 }
 

@@ -2326,15 +2326,8 @@ var TDF = (function () {
   function TDF() {
     _classCallCheck(this, TDF);
 
-    var that = this;
-
-    this.poll(function (data) {
-      console.log('refreshing');
-      that.render('header', { appState: data.appState, stageInfo: data.stageInfo });
-      that.render('status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
-      that.render('groups', { appState: data.appState, stageStatus: data.stageStatus });
-      that.render('news', { appState: data.appState, newsItems: data.newsItems });
-    });
+    this.askForNews();
+    this.askForStatus();
   }
 
   _createClass(TDF, [{
@@ -2343,22 +2336,45 @@ var TDF = (function () {
       return _get2['default'].getLatestData();
     }
   }, {
+    key: 'askForNews',
+    value: function askForNews() {
+      var _this = this;
+
+      this.poll(20000, function (data) {
+        console.info('refreshing news', data.newsItems);
+
+        _this.render('news', { appState: data.appState, newsItems: data.newsItems }, 'prepend');
+        _this.askForNews();
+      });
+    }
+  }, {
+    key: 'askForStatus',
+    value: function askForStatus() {
+      var _this2 = this;
+
+      this.poll(20000, function (data) {
+        console.info('refreshing status and groups', data.stageInfo, data.stageStatus);
+
+        _this2.render('status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
+        _this2.render('groups', { appState: data.appState, stageStatus: data.stageStatus });
+        _this2.askForStatus();
+      });
+    }
+  }, {
     key: 'poll',
-    value: function poll(callback) {
-      var that = this;
+    value: function poll(timeout, callback) {
+      var _this3 = this;
 
       setTimeout(function () {
-        that.getData().then(callback);
-        that.poll();
-      }, 30000);
+        _this3.getData().then(callback);
+      }, timeout);
     }
   }, {
     key: 'render',
-    value: function render(part, data) {
+    value: function render(part, data, action) {
       var html, selector;
 
       switch (part) {
-
         case 'header':
           html = (0, _viewsIncludesHeaderJade2['default'])(data);
           selector = document.querySelector('header');
@@ -2380,7 +2396,13 @@ var TDF = (function () {
           break;
       }
 
-      selector.innerHTML = html;
+      if (selector) {
+        if (action === 'prepend') {
+          selector.insertAdjacentHTML('afterbegin', html);
+        } else {
+          selector.innerHTML = html;
+        }
+      }
     }
   }]);
 
@@ -2391,11 +2413,9 @@ require('domready')(function () {
   new TDF();
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_710d9018.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_9409bebe.js","/")
 },{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/status.jade":14,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-/* globals console*/
-
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();

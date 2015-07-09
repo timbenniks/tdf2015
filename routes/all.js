@@ -14,7 +14,7 @@ module.exports = function( req, res, next ){
   appState().then( function( state ){
     appStateObject = state;
 
-    var promiseNews = getNews( appStateObject ).then( cleanNews ),/*.then( onlyNewNews ),*/
+    var promiseNews = getNews( appStateObject ).then( cleanNews ).then( onlyNewNews ),
         promiseStageData = stageData( appStateObject ),
         promiseStageStatus = getStatus( appStateObject );
 
@@ -34,6 +34,7 @@ module.exports = function( req, res, next ){
 
       if( newsItems.length <= 3 ){
           newsItems.forEach( function( item ){
+            console.log( 'doing notificaton' );
             notificaton( item );
           } );
         }

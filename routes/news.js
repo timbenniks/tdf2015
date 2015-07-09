@@ -3,7 +3,7 @@ var getNews = require( '../helpers/getNews' ),
     appState = require( '../helpers/appState' ),
     onlyNewNews = require( '../helpers/onlyNewNews' ),
     notificaton = require( '../helpers/slack' ),
-    
+
     render = function( req, res, data ){
       if( req.query.type === 'json' ){
         res.json( { newsItems: data } );
@@ -12,9 +12,9 @@ var getNews = require( '../helpers/getNews' ),
         res.render( 'includes/news', { newsItems: data } );
       }
     };
-  
+
 module.exports = function( req, res, next ){
-  
+
   if( req.query.show === 'all' ){
      appState()
       .then( getNews )
@@ -30,7 +30,7 @@ module.exports = function( req, res, next ){
       .then( cleanNews )
       .then( onlyNewNews )
       .then( function( data ){
-        
+
         if( data.length < 3 ){
           data.forEach( function( item ){
             notificaton( item );
@@ -41,5 +41,5 @@ module.exports = function( req, res, next ){
       } );
   }
 
- 
+
 };

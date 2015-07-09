@@ -1,5 +1,3 @@
-/* globals console*/
-
 import reqwest from 'reqwest';
 
 class get {
