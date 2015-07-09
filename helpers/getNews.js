@@ -12,6 +12,10 @@ module.exports = function( stageData ){
   },
   function( error, response, body ){
     if( response.statusCode === 200 ){
+      if( typeof JSON.parse( body ) === "undefined" ){
+        deferred.reject( 'live news not reachable.' );
+      }
+
       var data = JSON.parse( body );
 
       if( data.d ){
