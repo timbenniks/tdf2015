@@ -5,6 +5,6 @@ module.exports = function( req, res, next ){
   appState()
     .then( getRiders )
     .then( function( data ){
-      res.json( { riders: data[ 'riders' ], teams: data[ 'teams' ] } );
+      res.json( data );
     } );
 }

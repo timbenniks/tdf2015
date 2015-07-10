@@ -1,47 +1,25 @@
 var Q = require( 'q' ),
-    request = require( 'request' ),
+    request = require( 'superagent' ),
     moment = require( 'moment' );
 
 module.exports = function( stageData ){
-  console.log(stageData);
   var deferred = Q.defer(),
-      riders = stageData.jsonVersions.riders;
+      starters = stageData.jsonVersions.starters;
 
-  request({
-    method: 'GET',
-    uri: 'http://www.letour.fr/useradgents/2015/json/riders.' + riders + '.json'
-  },
-  function( error, response, body ){
-    if( response.statusCode === 200 ){
-       if( typeof JSON.parse( body ) === "undefined" ){
+  request
+    .get( 'http://www.letour.fr/useradgents/2015/json/starters.' + starters + '.json' )
+    .accept( 'application/json' )
+    .end( function( err, res ){
+      if( err && err.status === 404 ){
         deferred.reject( 'Rider info not reachable.' );
       }
+      else if( err ) {
+        deferred.reject( 'Something went wrong while getting the rider info.' );
+      }
 
-      var data = JSON.parse( body ),
-          teams = [];
-
-          data.t.forEach( function( team ){
-            var riders = team.r.map( function( rider ){
-              return data.r[ rider ];
-            } ),
-
-            mappedTeam = {
-              riders: riders,
-              leader: team.di,
-              name: team.d,
-              shortName: team.i,
-              country: team.c
-            };
-
-            teams.push( mappedTeam );
-          } );
-
-      deferred.resolve( { riders: data.r, teams: teams } );
-    }
-    else {
-      deferred.reject( 'Rider info not available.' );
-    }
-  });
+      var data = res.body;
+      deferred.resolve( data.r );
+    });
 
   return deferred.promise;
 };

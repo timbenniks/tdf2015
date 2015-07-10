@@ -21,7 +21,10 @@ module.exports = function( req, res, next ){
       .then( cleanNews )
       .then( function( data ){
         render( req, res, data );
-      } );
+      } )
+      .catch( function( error ){
+        render( req, res, { error: error }  )
+      })
   }
 
   if( req.query.show === 'new' || !req.query.show ){
@@ -38,7 +41,10 @@ module.exports = function( req, res, next ){
         }
 
         render( req, res, data );
-      } );
+      } )
+      .catch( function( error ){
+        render( req, res, { error: error }  )
+      })
   }
 
 

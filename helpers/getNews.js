@@ -1,34 +1,39 @@
 var Q = require( 'q' ),
-    request = require( 'request' );
+    request = require( 'superagent' );
 
 module.exports = function( stageData ){
 
   var deferred = Q.defer(),
       stage = stageData.stage;
 
-  request({
-    method: 'GET',
-    uri: 'http://www.letour.fr/useradgents/2015/json/livenews' + stage + '_en.json?_=' + Math.floor( Math.random() * 100000000 ).toString()
-  },
-  function( error, response, body ){
-    if( response.statusCode === 200 ){
-      if( typeof JSON.parse( body ) === "undefined" ){
+  request
+    .get( 'http://www.letour.fr/useradgents/2015/json/livenews' + stage + '_en.json' )
+    .query( { '_': Date.now().toString() } )
+    .accept( 'application/json' )
+    .set( 'X-Requested-With', 'XMLHttpRequest' )
+    .set( 'Cache-Control', 'no-cache,no-store,must-revalidate,max-age=-1' )
+    .end( function( err, res ){
+      if( err && err.status === 404 ){
         deferred.reject( 'live news not reachable.' );
       }
-
-      var data = JSON.parse( body );
-
-      if( data.d ){
-        deferred.resolve( data.d );
-      }
-      else {
+      else if( err ) {
         deferred.reject( 'no live news yet.' );
       }
-    }
-    else {
-      deferred.reject( 'no live news yet.' );
-    }
-  });
+
+      if( typeof res === "undefined" ){
+        deferred.reject( 'no live news yet.' );
+      }
+
+      if( typeof res.body === "undefined" ){
+        deferred.reject( 'no live news yet.' );
+      }
+
+      if( typeof res.body.d === "undefined" ){
+        deferred.reject( 'no live news yet.' );
+      }
+
+      deferred.resolve( res.body.d );
+    });
 
   return deferred.promise;
 };

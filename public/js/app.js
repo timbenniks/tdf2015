@@ -2322,12 +2322,20 @@ var _viewsIncludesNewsJade = require('../../views/includes/news.jade');
 
 var _viewsIncludesNewsJade2 = _interopRequireDefault(_viewsIncludesNewsJade);
 
+var _viewsIncludesRidersJade = require('../../views/includes/riders.jade');
+
+var _viewsIncludesRidersJade2 = _interopRequireDefault(_viewsIncludesRidersJade);
+
 var TDF = (function () {
   function TDF() {
     _classCallCheck(this, TDF);
 
-    this.askForNews();
-    this.askForStatus();
+    var today = new Date().getHours();
+
+    if (today >= 13 && today <= 18) {
+      this.askForNews();
+      this.askForStatus();
+    }
   }
 
   _createClass(TDF, [{
@@ -2341,8 +2349,6 @@ var TDF = (function () {
       var _this = this;
 
       this.poll(20000, function (data) {
-        console.info('refreshing news', data.newsItems);
-
         _this.render('news', { appState: data.appState, newsItems: data.newsItems }, 'prepend');
         _this.askForNews();
       });
@@ -2353,9 +2359,8 @@ var TDF = (function () {
       var _this2 = this;
 
       this.poll(20000, function (data) {
-        console.info('refreshing status and groups', data.stageInfo, data.stageStatus);
-
         _this2.render('status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
+        _this2.render('riders', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
         _this2.render('groups', { appState: data.appState, stageStatus: data.stageStatus });
         _this2.askForStatus();
       });
@@ -2374,6 +2379,8 @@ var TDF = (function () {
     value: function render(part, data, action) {
       var html, selector;
 
+      console.info('refreshing', part, data);
+
       switch (part) {
         case 'header':
           html = (0, _viewsIncludesHeaderJade2['default'])(data);
@@ -2388,6 +2395,11 @@ var TDF = (function () {
         case 'groups':
           html = (0, _viewsIncludesGroupsJade2['default'])(data);
           selector = document.querySelector('.groups');
+          break;
+
+        case 'riders':
+          html = (0, _viewsIncludesRidersJade2['default'])(data);
+          selector = document.querySelector('.riders');
           break;
 
         case 'news':
@@ -2413,8 +2425,8 @@ require('domready')(function () {
   new TDF();
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_626fc17d.js","/")
-},{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/status.jade":14,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_602a1338.js","/")
+},{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/riders.jade":14,"../../views/includes/status.jade":15,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
@@ -2615,6 +2627,107 @@ buf.push("<article" + (jade.attr("id", item.time, true, false)) + (jade.cls([ite
 };
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/news.jade","/../../views/includes")
 },{"buffer":3,"jade/runtime":7,"oMfpAn":6}],14:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var jade = require("jade/runtime");
+
+module.exports = function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (stageStatus, undefined) {
+// iterate stageStatus.groups
+;(function(){
+  var $$obj = stageStatus.groups;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var group = $$obj[$index];
+
+if ( group.riders.length > 0)
+{
+buf.push("<div class=\"group-riders\">");
+if ( group.runnersNo > 0)
+{
+buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
+}
+else
+{
+buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_interp)) + "</h2>");
+}
+// iterate group.riders
+;(function(){
+  var $$obj = group.riders;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  }
+}).call(this);
+
+buf.push("</div>");
+}
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var group = $$obj[$index];
+
+if ( group.riders.length > 0)
+{
+buf.push("<div class=\"group-riders\">");
+if ( group.runnersNo > 0)
+{
+buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
+}
+else
+{
+buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_interp)) + "</h2>");
+}
+// iterate group.riders
+;(function(){
+  var $$obj = group.riders;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  }
+}).call(this);
+
+buf.push("</div>");
+}
+    }
+
+  }
+}).call(this);
+}.call(this,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
+};
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/riders.jade","/../../views/includes")
+},{"buffer":3,"jade/runtime":7,"oMfpAn":6}],15:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var jade = require("jade/runtime");
 

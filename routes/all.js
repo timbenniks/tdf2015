@@ -34,7 +34,7 @@ module.exports = function( req, res, next ){
 
       if( newsItems.length <= 3 ){
           newsItems.forEach( function( item ){
-            console.log( 'doing notificaton' );
+            console.log( 'Doing notificaton' );
             notificaton( item );
           } );
         }

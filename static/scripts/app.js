@@ -3,11 +3,16 @@ import header from '../../views/includes/header.jade';
 import status from '../../views/includes/status.jade';
 import groups from '../../views/includes/groups.jade';
 import news from '../../views/includes/news.jade';
+import riders from '../../views/includes/riders.jade';
 
 class TDF {
   constructor(){
-    this.askForNews();
-    this.askForStatus();
+    var today = new Date().getHours();
+
+    if( today >= 13 && today <= 18 ){
+      this.askForNews();
+      this.askForStatus();
+    }
   }
 
   getData(){
@@ -16,8 +21,6 @@ class TDF {
 
   askForNews(){
     this.poll( 20000, ( data )=> {
-      console.info( 'refreshing news', data.newsItems );
-
       this.render( 'news', { appState: data.appState, newsItems: data.newsItems }, 'prepend' );
       this.askForNews();
     } );
@@ -25,9 +28,8 @@ class TDF {
 
   askForStatus(){
     this.poll( 20000, ( data )=> {
-      console.info( 'refreshing status and groups', data.stageInfo, data.stageStatus );
-
       this.render( 'status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
+      this.render( 'riders', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
       this.render( 'groups', { appState: data.appState, stageStatus: data.stageStatus } );
       this.askForStatus();
     } );
@@ -42,6 +44,8 @@ class TDF {
   render( part, data, action ) {
     var html,
         selector;
+
+    console.info( 'refreshing', part, data );
 
     switch( part ){
       case 'header':
@@ -58,6 +62,12 @@ class TDF {
         html = groups( data );
         selector = document.querySelector( '.groups' );
       break;
+
+      case 'riders':
+        html = riders( data );
+        selector = document.querySelector( '.riders' );
+      break;
+
 
       case 'news':
         html = news( data );

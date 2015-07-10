@@ -1,0 +1,14 @@
+for group in stageStatus.groups
+  if group.riders.length > 0
+    .group-riders
+      if group.runnersNo > 0
+        h2 #{group.title} (#{group.runnersNo})
+      else
+        h2= group.title
+
+      for rider in group.riders
+        .rider
+          img( width="20", src="http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/#{ rider.n }.jpg" )
+
+          h3 #[span.flag( class="flag-#{rider.c.toLowerCase()}" )] #[span.name #{rider.s}]
+          h4.behind= rider.behind

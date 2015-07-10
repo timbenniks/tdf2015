@@ -12,5 +12,9 @@ block content
     section.groups
       include includes/groups.jade
 
+  if stageStatus.groups.length > 0
+    section.riders
+      include includes/riders.jade
+
   section.news-items
     include includes/news.jade
