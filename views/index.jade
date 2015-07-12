@@ -5,8 +5,9 @@ block content
   header
     include includes/header.jade
 
-  figure.stage-status
-    include includes/status.jade
+  if stageInfo.type === 'regular race'
+    figure.stage-status
+      include includes/status.jade
 
   if stageStatus.groups.length > 0
     section.groups

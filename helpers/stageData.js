@@ -1,6 +1,7 @@
 var Q = require( 'q' ),
     request = require( 'superagent' ),
-    moment = require( 'moment' );
+    moment = require( 'moment' ),
+    getStageType = require( './getStageType' );
 
 module.exports = function( stageData ){
   var deferred = Q.defer(),
@@ -20,6 +21,7 @@ module.exports = function( stageData ){
 
       var data = res.body[ stage ],
           stageData = {
+            type: getStageType( data.type ),
             distance: data.distance,
             date: moment( data.date ).format( "D MMMM YYYY" ),
             start: data.start,

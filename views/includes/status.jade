@@ -1,18 +1,19 @@
-figcaption
-  .stats
-    .stat.speed
-      h2 Current speed
-      p #{stageStatus.speed}
-    .stat.completed
-      h2 Distance completed
-      p #{stageStatus.kmCompleted}
-    .stat.remaining
-      h2 Distance remaining
-      p #{stageStatus.kmRemaining}
-    .stat.distance
-      h2 Total distance
-      p #{stageInfo.distance}km
+if stageInfo.type === 'regular race'
+  figcaption
+    .stats
+      .stat.speed
+        h2 Current speed
+        p #{stageStatus.speed}
+      .stat.completed
+        h2 Distance completed
+        p #{stageStatus.kmCompleted}
+      .stat.remaining
+        h2 Distance remaining
+        p #{stageStatus.kmRemaining}
+      .stat.distance
+        h2 Total distance
+        p #{stageInfo.distance}km
 
-.progress-wrapper
-  img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage.slice(1)}.png" )
-  .percentage( style="width: #{ ( ( stageStatus.kmCompletedInt / stageInfo.distance ) * 100 ).toFixed( 0 ) }%" )
+  .progress-wrapper
+    img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage.slice(1)}.png" )
+    .percentage( style="width: #{ ( ( stageStatus.kmCompletedInt / stageInfo.distance ) * 100 ).toFixed( 0 ) }%" )

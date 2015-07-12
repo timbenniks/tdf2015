@@ -7,7 +7,7 @@ import riders from '../../views/includes/riders.jade';
 
 class TDF {
   constructor(){
-    var today = new Date().getHours();
+    let today = new Date().getHours();
 
     if( today >= 13 && today <= 18 ){
       this.askForNews();
@@ -67,7 +67,6 @@ class TDF {
         html = riders( data );
         selector = document.querySelector( '.riders' );
       break;
-
 
       case 'news':
         html = news( data );

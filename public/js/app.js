@@ -2425,7 +2425,7 @@ require('domready')(function () {
   new TDF();
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_602a1338.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ed20ff7e.js","/")
 },{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/riders.jade":14,"../../views/includes/status.jade":15,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -2662,7 +2662,7 @@ buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_i
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var rider = $$obj[$index];
 
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
     }
 
   } else {
@@ -2670,7 +2670,7 @@ buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://ww
     for (var $index in $$obj) {
       $$l++;      var rider = $$obj[$index];
 
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
     }
 
   }
@@ -2704,7 +2704,7 @@ buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_i
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var rider = $$obj[$index];
 
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
     }
 
   } else {
@@ -2712,7 +2712,7 @@ buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://ww
     for (var $index in $$obj) {
       $$l++;      var rider = $$obj[$index];
 
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><div" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></div><h3 class=\"name\">" + (jade.escape(null == (jade_interp = rider.s) ? "" : jade_interp)) + "</h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
     }
 
   }
