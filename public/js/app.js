@@ -2322,23 +2322,49 @@ var _viewsIncludesNewsJade = require('../../views/includes/news.jade');
 
 var _viewsIncludesNewsJade2 = _interopRequireDefault(_viewsIncludesNewsJade);
 
-var _viewsIncludesRidersJade = require('../../views/includes/riders.jade');
-
-var _viewsIncludesRidersJade2 = _interopRequireDefault(_viewsIncludesRidersJade);
-
 var TDF = (function () {
   function TDF() {
     _classCallCheck(this, TDF);
 
     var today = new Date().getHours();
 
-    if (today >= 13 && today <= 18) {
+    if (today >= 12 && today <= 18) {
       this.askForNews();
       this.askForStatus();
+      this.bindRiderLinks();
     }
   }
 
   _createClass(TDF, [{
+    key: 'bindRiderLinks',
+    value: function bindRiderLinks() {
+      var _this = this;
+
+      var links = document.querySelectorAll('.show-riders');
+
+      [].forEach.call(links, function (link) {
+        link.addEventListener('click', _this.showRiders);
+      });
+    }
+  }, {
+    key: 'unbindRiderLinks',
+    value: function unbindRiderLinks() {
+      var _this2 = this;
+
+      var links = document.querySelectorAll('.show-riders');
+
+      [].forEach.call(links, function (link) {
+        link.removeEventListener('click', _this2.showRiders);
+      });
+    }
+  }, {
+    key: 'showRiders',
+    value: function showRiders() {
+      [].forEach.call(document.querySelectorAll('.riders'), function (riders) {
+        riders.style.display = 'block';
+      });
+    }
+  }, {
     key: 'getData',
     value: function getData() {
       return _get2['default'].getLatestData();
@@ -2346,32 +2372,31 @@ var TDF = (function () {
   }, {
     key: 'askForNews',
     value: function askForNews() {
-      var _this = this;
+      var _this3 = this;
 
       this.poll(20000, function (data) {
-        _this.render('news', { appState: data.appState, newsItems: data.newsItems }, 'prepend');
-        _this.askForNews();
+        _this3.render('news', { appState: data.appState, newsItems: data.newsItems }, 'prepend');
+        _this3.askForNews();
       });
     }
   }, {
     key: 'askForStatus',
     value: function askForStatus() {
-      var _this2 = this;
+      var _this4 = this;
 
       this.poll(20000, function (data) {
-        _this2.render('status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
-        _this2.render('riders', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
-        _this2.render('groups', { appState: data.appState, stageStatus: data.stageStatus });
-        _this2.askForStatus();
+        _this4.render('status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
+        _this4.render('groups', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus });
+        _this4.askForStatus();
       });
     }
   }, {
     key: 'poll',
     value: function poll(timeout, callback) {
-      var _this3 = this;
+      var _this5 = this;
 
       setTimeout(function () {
-        _this3.getData().then(callback);
+        _this5.getData().then(callback);
       }, timeout);
     }
   }, {
@@ -2397,11 +2422,6 @@ var TDF = (function () {
           selector = document.querySelector('.groups');
           break;
 
-        case 'riders':
-          html = (0, _viewsIncludesRidersJade2['default'])(data);
-          selector = document.querySelector('.riders');
-          break;
-
         case 'news':
           html = (0, _viewsIncludesNewsJade2['default'])(data);
           selector = document.querySelector('.news-items');
@@ -2412,7 +2432,15 @@ var TDF = (function () {
         if (action === 'prepend') {
           selector.insertAdjacentHTML('afterbegin', html);
         } else {
+          if (part === 'groups') {
+            this.unbindRiderLinks();
+          }
+
           selector.innerHTML = html;
+
+          if (part === 'groups') {
+            this.bindRiderLinks();
+          }
         }
       }
     }
@@ -2425,8 +2453,8 @@ require('domready')(function () {
   new TDF();
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ed20ff7e.js","/")
-},{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/riders.jade":14,"../../views/includes/status.jade":15,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d83ce99e.js","/")
+},{"../../views/includes/groups.jade":11,"../../views/includes/header.jade":12,"../../views/includes/news.jade":13,"../../views/includes/status.jade":14,"./get":10,"buffer":3,"domready":1,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
@@ -2473,7 +2501,9 @@ module.exports = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-;var locals_for_with = (locals || {});(function (stageStatus, undefined) {
+;var locals_for_with = (locals || {});(function (stageInfo, stageStatus, undefined) {
+if ( stageInfo.type === 'regular race' && stageStatus.groups.length > 0)
+{
 // iterate stageStatus.groups
 ;(function(){
   var $$obj = stageStatus.groups;
@@ -2485,7 +2515,7 @@ var jade_interp;
 buf.push("<div class=\"group\">");
 if ( group.runnersNo > 0)
 {
-buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
+buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " <span class=\"show-riders\">(" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</span></h2>");
 }
 else
 {
@@ -2520,7 +2550,33 @@ buf.push("<span" + (jade.cls(['jersey',jersey], [null,true])) + "></span>");
 }).call(this);
 
 }
-buf.push("</div>");
+if ( group.riders.length > 0)
+{
+}
+buf.push("<section class=\"riders\"><div class=\"group-riders\">");
+// iterate group.riders
+;(function(){
+  var $$obj = group.riders;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  }
+}).call(this);
+
+buf.push("</div></section></div>");
     }
 
   } else {
@@ -2531,7 +2587,7 @@ buf.push("</div>");
 buf.push("<div class=\"group\">");
 if ( group.runnersNo > 0)
 {
-buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
+buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " <span class=\"show-riders\">(" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</span></h2>");
 }
 else
 {
@@ -2566,12 +2622,39 @@ buf.push("<span" + (jade.cls(['jersey',jersey], [null,true])) + "></span>");
 }).call(this);
 
 }
-buf.push("</div>");
+if ( group.riders.length > 0)
+{
+}
+buf.push("<section class=\"riders\"><div class=\"group-riders\">");
+// iterate group.riders
+;(function(){
+  var $$obj = group.riders;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var rider = $$obj[$index];
+
+buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
     }
 
   }
 }).call(this);
-}.call(this,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
+
+buf.push("</div></section></div>");
+    }
+
+  }
+}).call(this);
+
+}}.call(this,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
 };
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/groups.jade","/../../views/includes")
 },{"buffer":3,"jade/runtime":7,"oMfpAn":6}],12:[function(require,module,exports){
@@ -2583,7 +2666,7 @@ var buf = [];
 var jade_mixins = {};
 var jade_interp;
 ;var locals_for_with = (locals || {});(function (stageInfo) {
-buf.push("<h1>" + (jade.escape((jade_interp = stageInfo.start) == null ? '' : jade_interp)) + " &mdash; " + (jade.escape((jade_interp = stageInfo.finish) == null ? '' : jade_interp)) + "</h1><h2>" + (jade.escape((jade_interp = stageInfo.date) == null ? '' : jade_interp)) + "</h2>");}.call(this,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined));;return buf.join("");
+buf.push("<h1>" + (jade.escape((jade_interp = stageInfo.type) == null ? '' : jade_interp)) + ": " + (jade.escape((jade_interp = stageInfo.start) == null ? '' : jade_interp)) + " &mdash; " + (jade.escape((jade_interp = stageInfo.finish) == null ? '' : jade_interp)) + "</h1><h2>" + (jade.escape((jade_interp = stageInfo.date) == null ? '' : jade_interp)) + "</h2>");}.call(this,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined));;return buf.join("");
 };
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/header.jade","/../../views/includes")
 },{"buffer":3,"jade/runtime":7,"oMfpAn":6}],13:[function(require,module,exports){
@@ -2634,109 +2717,11 @@ module.exports = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-;var locals_for_with = (locals || {});(function (stageStatus, undefined) {
-// iterate stageStatus.groups
-;(function(){
-  var $$obj = stageStatus.groups;
-  if ('number' == typeof $$obj.length) {
-
-    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
-      var group = $$obj[$index];
-
-if ( group.riders.length > 0)
-{
-buf.push("<div class=\"group-riders\">");
-if ( group.runnersNo > 0)
-{
-buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
-}
-else
-{
-buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_interp)) + "</h2>");
-}
-// iterate group.riders
-;(function(){
-  var $$obj = group.riders;
-  if ('number' == typeof $$obj.length) {
-
-    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
-      var rider = $$obj[$index];
-
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
-    }
-
-  } else {
-    var $$l = 0;
-    for (var $index in $$obj) {
-      $$l++;      var rider = $$obj[$index];
-
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
-    }
-
-  }
-}).call(this);
-
-buf.push("</div>");
-}
-    }
-
-  } else {
-    var $$l = 0;
-    for (var $index in $$obj) {
-      $$l++;      var group = $$obj[$index];
-
-if ( group.riders.length > 0)
-{
-buf.push("<div class=\"group-riders\">");
-if ( group.runnersNo > 0)
-{
-buf.push("<h2>" + (jade.escape((jade_interp = group.title) == null ? '' : jade_interp)) + " (" + (jade.escape((jade_interp = group.runnersNo) == null ? '' : jade_interp)) + ")</h2>");
-}
-else
-{
-buf.push("<h2>" + (jade.escape(null == (jade_interp = group.title) ? "" : jade_interp)) + "</h2>");
-}
-// iterate group.riders
-;(function(){
-  var $$obj = group.riders;
-  if ('number' == typeof $$obj.length) {
-
-    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
-      var rider = $$obj[$index];
-
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
-    }
-
-  } else {
-    var $$l = 0;
-    for (var $index in $$obj) {
-      $$l++;      var rider = $$obj[$index];
-
-buf.push("<div class=\"rider\"><img width=\"20\"" + (jade.attr("src", "http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/" + ( rider.n ) + ".jpg", true, false)) + "/><h3><span" + (jade.cls(['flag',"flag-" + (rider.c.toLowerCase()) + ""], [null,true])) + "></span> <span class=\"name\">" + (jade.escape((jade_interp = rider.s) == null ? '' : jade_interp)) + "</span></h3><h4 class=\"behind\">" + (jade.escape(null == (jade_interp = rider.behind) ? "" : jade_interp)) + "</h4></div>");
-    }
-
-  }
-}).call(this);
-
-buf.push("</div>");
-}
-    }
-
-  }
-}).call(this);
-}.call(this,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
-};
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/riders.jade","/../../views/includes")
-},{"buffer":3,"jade/runtime":7,"oMfpAn":6}],15:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var jade = require("jade/runtime");
-
-module.exports = function template(locals) {
-var buf = [];
-var jade_mixins = {};
-var jade_interp;
 ;var locals_for_with = (locals || {});(function (appState, stageInfo, stageStatus) {
-buf.push("<figcaption><div class=\"stats\"><div class=\"stat speed\"><h2>Current speed</h2><p>" + (jade.escape((jade_interp = stageStatus.speed) == null ? '' : jade_interp)) + "</p></div><div class=\"stat completed\"><h2>Distance completed</h2><p>" + (jade.escape((jade_interp = stageStatus.kmCompleted) == null ? '' : jade_interp)) + "</p></div><div class=\"stat remaining\"><h2>Distance remaining</h2><p>" + (jade.escape((jade_interp = stageStatus.kmRemaining) == null ? '' : jade_interp)) + "</p></div><div class=\"stat distance\"><h2>Total distance</h2><p>" + (jade.escape((jade_interp = stageInfo.distance) == null ? '' : jade_interp)) + "km</p></div></div></figcaption><div class=\"progress-wrapper\"><img" + (jade.attr("src", "http://www.letour.fr/le-tour/2015/img/profils/" + (appState.stage.slice(1)) + ".png", true, false)) + "/><div" + (jade.attr("style", "width: " + ( ( ( stageStatus.kmCompletedInt / stageInfo.distance ) * 100 ).toFixed( 0 ) ) + "%", true, false)) + " class=\"percentage\"></div></div>");}.call(this,"appState" in locals_for_with?locals_for_with.appState:typeof appState!=="undefined"?appState:undefined,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined));;return buf.join("");
+if ( stageInfo.type === 'regular race')
+{
+buf.push("<figcaption><div class=\"stats\"><div class=\"stat speed\"><h2>Current speed</h2><p>" + (jade.escape((jade_interp = stageStatus.speed) == null ? '' : jade_interp)) + "</p></div><div class=\"stat completed\"><h2>Distance completed</h2><p>" + (jade.escape((jade_interp = stageStatus.kmCompleted) == null ? '' : jade_interp)) + "</p></div><div class=\"stat remaining\"><h2>Distance remaining</h2><p>" + (jade.escape((jade_interp = stageStatus.kmRemaining) == null ? '' : jade_interp)) + "</p></div><div class=\"stat distance\"><h2>Total distance</h2><p>" + (jade.escape((jade_interp = stageInfo.distance) == null ? '' : jade_interp)) + "km</p></div></div></figcaption><div class=\"progress-wrapper\"><img" + (jade.attr("src", "http://www.letour.fr/le-tour/2015/img/profils/" + (appState.stage) + ".png", true, false)) + "/><div" + (jade.attr("style", "width: " + ( ( ( stageStatus.kmCompletedInt / stageInfo.distance ) * 100 ).toFixed( 0 ) ) + "%", true, false)) + " class=\"percentage\"></div></div>");
+}}.call(this,"appState" in locals_for_with?locals_for_with.appState:typeof appState!=="undefined"?appState:undefined,"stageInfo" in locals_for_with?locals_for_with.stageInfo:typeof stageInfo!=="undefined"?stageInfo:undefined,"stageStatus" in locals_for_with?locals_for_with.stageStatus:typeof stageStatus!=="undefined"?stageStatus:undefined));;return buf.join("");
 };
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../views/includes/status.jade","/../../views/includes")
 },{"buffer":3,"jade/runtime":7,"oMfpAn":6}]},{},[9])

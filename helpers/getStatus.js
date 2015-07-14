@@ -27,6 +27,10 @@ module.exports = function( stageData ){
           deferred.reject( 'Something went wrong while getting the status.' );
         }
 
+        if( !res ){
+          deferred.reject( 'Something went wrong while getting the status.' );
+        }
+
         var data = res.body,
             status = {
               speed: ( data.s ) ? ( data.s / 1000 ).toFixed( 1 ) + 'km/h' : '-',

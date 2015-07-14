@@ -1,9 +1,9 @@
-if stageInfo.type === 'regular race'
+if stageInfo.type === 'regular race' && stageStatus.groups.length > 0
   for group in stageStatus.groups
     .group
 
       if group.runnersNo > 0
-        h2 #{group.title} (#{group.runnersNo})
+        h2 #{group.title} #[span.show-riders (#{group.runnersNo})]
       else
         h2= group.title
 
@@ -13,3 +13,14 @@ if stageInfo.type === 'regular race'
       if group.jerseys.length > 0
         for jersey in group.jerseys
           span.jersey( class=jersey )
+
+      if group.riders.length > 0
+      section.riders
+        .group-riders
+
+          for rider in group.riders
+            .rider
+              img( width="20", src="http://www.letour.fr/PHOTOS/TDF/2015/RIDERS/#{ rider.n }.jpg" )
+
+              h3 #[span.flag( class="flag-#{rider.c.toLowerCase()}" )] #[span.name #{rider.s}]
+              h4.behind= rider.behind

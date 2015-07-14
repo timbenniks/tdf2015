@@ -15,5 +15,5 @@ if stageInfo.type === 'regular race'
         p #{stageInfo.distance}km
 
   .progress-wrapper
-    img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage.slice(1)}.png" )
+    img( src="http://www.letour.fr/le-tour/2015/img/profils/#{appState.stage}.png" )
     .percentage( style="width: #{ ( ( stageStatus.kmCompletedInt / stageInfo.distance ) * 100 ).toFixed( 0 ) }%" )

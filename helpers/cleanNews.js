@@ -4,11 +4,19 @@ module.exports = function( rawData ){
   var deferred = Q.defer(),
       newsItems = [],
 
+  pad = function( num, size ){
+    if( num.toString().length >= size ){
+      return num;
+    }
+
+    return ( Math.pow( 10, size ) + Math.floor(num) ).toString().substring( 1 );
+  },
+
   toReadableTime = function( time ){
     var h = Math.floor( time / 3600 ),
         m = Math.floor( ( time - 3600 * h ) / 60 );
 
-    return h + ':' + m;
+    return h + ':' + pad( m, 2 );
   },
 
   toStatus = function( status ) {

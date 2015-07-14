@@ -1,5 +1,5 @@
 var Slack = require( 'node-slack' ),
-    slack = new Slack( 'https://hooks.slack.com/services/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' );
+    slack = new Slack( 'https://hooks.slack.com/services/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' );
 
 module.exports = function( data ){
 
@@ -61,7 +61,7 @@ module.exports = function( data ){
 
   slack.send({
     text: text,
-    channel: '#random',
+    channel: '#tdf',
     username: 'Tour De France',
     attachments: [{
             "text": data.text,

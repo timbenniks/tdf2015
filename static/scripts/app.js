@@ -3,16 +3,38 @@ import header from '../../views/includes/header.jade';
 import status from '../../views/includes/status.jade';
 import groups from '../../views/includes/groups.jade';
 import news from '../../views/includes/news.jade';
-import riders from '../../views/includes/riders.jade';
 
 class TDF {
   constructor(){
     let today = new Date().getHours();
 
-    if( today >= 13 && today <= 18 ){
+    if( today >= 12 && today <= 18 ){
       this.askForNews();
       this.askForStatus();
+      this.bindRiderLinks();
     }
+  }
+
+  bindRiderLinks(){
+    let links = document.querySelectorAll( '.show-riders' );
+
+    [].forEach.call( links, ( link )=> {
+      link.addEventListener( 'click', this.showRiders );
+    });
+  }
+
+  unbindRiderLinks(){
+    let links = document.querySelectorAll( '.show-riders' );
+
+    [].forEach.call( links, ( link )=> {
+      link.removeEventListener( 'click', this.showRiders );
+    });
+  }
+
+  showRiders(){
+    [].forEach.call( document.querySelectorAll( '.riders' ), ( riders )=> {
+      riders.style.display = 'block';
+    });
   }
 
   getData(){
@@ -29,8 +51,7 @@ class TDF {
   askForStatus(){
     this.poll( 20000, ( data )=> {
       this.render( 'status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
-      this.render( 'riders', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
-      this.render( 'groups', { appState: data.appState, stageStatus: data.stageStatus } );
+      this.render( 'groups', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
       this.askForStatus();
     } );
   }
@@ -63,11 +84,6 @@ class TDF {
         selector = document.querySelector( '.groups' );
       break;
 
-      case 'riders':
-        html = riders( data );
-        selector = document.querySelector( '.riders' );
-      break;
-
       case 'news':
         html = news( data );
         selector = document.querySelector( '.news-items' );
@@ -79,7 +95,15 @@ class TDF {
         selector.insertAdjacentHTML( "afterbegin", html );
       }
       else {
+        if( part === 'groups' ){
+          this.unbindRiderLinks();
+        }
+
         selector.innerHTML = html;
+
+        if( part === 'groups' ){
+          this.bindRiderLinks();
+        }
       }
     }
   }

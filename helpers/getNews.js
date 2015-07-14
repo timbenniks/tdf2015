@@ -20,11 +20,7 @@ module.exports = function( stageData ){
         deferred.reject( 'no live news yet.' );
       }
 
-      if( typeof res === "undefined" ){
-        deferred.reject( 'no live news yet.' );
-      }
-
-      if( typeof res.body === "undefined" ){
+      if( !res || !res.body ){
         deferred.reject( 'no live news yet.' );
       }
 
