@@ -28,7 +28,7 @@ module.exports = function( stageData ){
           deferred.reject( 'Something went wrong while getting the status.' );
         }
 
-        if( res !== undefined && res.body !== undefined ){
+        //if( res !== undefined && res.body !== undefined ){
           var data = res.body,
               status = {
                 speed: ( data.s ) ? ( data.s / 1000 ).toFixed( 1 ) + 'km/h' : '-',
@@ -64,9 +64,9 @@ module.exports = function( stageData ){
           }
 
           deferred.resolve( status );
-        }
+        //}
 
-        deferred.reject( 'Something went wrong while getting the status.' );
+        //deferred.reject( 'Something went wrong while getting the status.' );
       });
 
   } );

@@ -8,7 +8,7 @@ class TDF {
   constructor(){
     let today = new Date().getHours();
 
-    if( today >= 12 && today <= 18 ){
+    if( today >= 11 && today <= 18 ){
       this.askForNews();
       this.askForStatus();
       this.bindRiderLinks();
@@ -45,7 +45,7 @@ class TDF {
     this.poll( 20000, ( data )=> {
       this.render( 'news', { appState: data.appState, newsItems: data.newsItems }, 'prepend' );
       this.askForNews();
-    } );
+    }, ()=> { this.askForNews(); } );
   }
 
   askForStatus(){
@@ -53,12 +53,12 @@ class TDF {
       this.render( 'status', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
       this.render( 'groups', { appState: data.appState, stageInfo: data.stageInfo, stageStatus: data.stageStatus } );
       this.askForStatus();
-    } );
+    }, ()=> { this.askForStatus(); } );
   }
 
-  poll( timeout, callback ){
+  poll( timeout, callback, onError ){
     setTimeout( ()=> {
-      this.getData().then( callback );
+      this.getData().then( callback ).catch( onError );
     }, timeout );
   }
 
