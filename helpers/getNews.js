@@ -20,15 +20,11 @@ module.exports = function( stageData ){
         deferred.reject( 'no live news yet.' );
       }
 
-      if( !res || !res.body ){
-        deferred.reject( 'no live news yet.' );
+      if( res !== undefined && res.body !== undefined && res.body.d !== undefined ){
+        deferred.resolve( res.body.d );
       }
 
-      if( typeof res.body.d === "undefined" ){
-        deferred.reject( 'no live news yet.' );
-      }
-
-      deferred.resolve( res.body.d );
+      deferred.reject( 'error parsing live news feed' );
     });
 
   return deferred.promise;
